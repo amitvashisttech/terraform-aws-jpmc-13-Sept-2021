@@ -2,9 +2,9 @@
 
 ## Step1: Download Terraform
 ```
-==>  wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
+==>  wget https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
 ==>  apt-get install unzip -y 
-==>  unzip terraform_0.12.24_linux_amd64.zip 
+==>  unzip terraform_0.12.28_linux_amd64.zip 
 ==>  mv terraform /usr/bin/terraform
 ==>  chmod +x /usr/bin/terraform
 ==>  export PATH=$PATH:/usr/bin/terraform
