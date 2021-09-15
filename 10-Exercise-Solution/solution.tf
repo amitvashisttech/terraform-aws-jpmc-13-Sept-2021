@@ -28,6 +28,9 @@ resource "aws_instance" "east_frontend" {
   lifecycle {
     create_before_destroy = true
   }
+ tags = {
+   Name = "frontend-${count.index}"
+  }
 }
 
 resource "aws_instance" "west_frontend" {

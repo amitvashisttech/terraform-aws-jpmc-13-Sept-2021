@@ -31,8 +31,8 @@ variable "project-name-2" {
 }
 
 locals { 
-  default_frontend_name = "${join("-", list(var.project-name, "Frontend" ))}"
-  default_backend_name = "${join("-", list(var.project-name, "Backend" ))}"
+  default_frontend_name = "${join("_", list(var.project-name, "Frontend" ))}"
+  default_backend_name = "${join("_", list(var.project-name, "Backend" ))}"
   west_frontend_name = "${join("-", list(var.project-name-2, "Frontend" ))}"
   west_backend_name = "${join("-", list(var.project-name-2, "Backend" ))}"
 }
