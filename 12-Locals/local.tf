@@ -19,11 +19,31 @@ variable "zones_west" {
 }
 
 variable "multi-region-deployment" {
-  default = false
+  default = true
 }
 
 variable "project-name" { 
   default = "Terraform-demo"
+}
+
+variable "project-name-2" { 
+  default = "Production-AV"
+}
+
+locals { 
+  default_frontend_name = "${join("-", list(var.project-name, "Frontend" ))}"
+  default_backend_name = "${join("-", list(var.project-name, "Backend" ))}"
+  west_frontend_name = "${join("-", list(var.project-name-2, "Frontend" ))}"
+  west_backend_name = "${join("-", list(var.project-name-2, "Backend" ))}"
+}
+
+locals { 
+  some_tags = { 
+    Owner = "DevOps Team"
+    Project = "Initial Demo Project"
+    Server  = "Backend"
+    Name    = local.west_frontend_name
+  }
 }
 
 
@@ -39,7 +59,7 @@ resource "aws_instance" "east_frontend" {
   }
 
  tags = {
-   Name = "${join("-", list(var.project-name, "Frontend" ))}-${count.index + 1}"
+   Name = local.default_frontend_name
  }
   
 }
@@ -54,6 +74,7 @@ resource "aws_instance" "west_frontend" {
   lifecycle {
     create_before_destroy = true
   }
+  tags = local.some_tags
 }
 
 
@@ -65,11 +86,9 @@ resource "aws_instance" "east_backend" {
   lifecycle {
     prevent_destroy = true
   }
-
-
- tags = {
-   Name = "${join("-", list(var.project-name, "Backend" ))}-${count.index + 1}"
- }
+  tags = {
+    Name = local.default_backend_name
+  }
 }
 
 
@@ -81,6 +100,9 @@ resource "aws_instance" "west_backend" {
   provider      = aws.us-west-1
   lifecycle {
     prevent_destroy = true
+  }
+  tags = {
+    Name = local.west_backend_name
   }
 }
 
