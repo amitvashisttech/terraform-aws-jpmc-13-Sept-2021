@@ -19,7 +19,7 @@ variable "zones_west" {
 }
 
 variable "multi-region-deployment" {
-  default = true
+  default = false
 }
 
 variable "project-name" { 
@@ -59,7 +59,7 @@ resource "aws_instance" "east_frontend" {
   }
 
  tags = {
-   Name = local.default_frontend_name
+   Name = "${local.default_frontend_name}-${count.index}"
  }
   
 }
@@ -84,7 +84,7 @@ resource "aws_instance" "east_backend" {
   availability_zone = var.zones_east[count.index]
   count             = 2
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
   tags = {
     Name = local.default_backend_name
@@ -99,7 +99,7 @@ resource "aws_instance" "west_backend" {
   count             = var.multi-region-deployment ? 2 : 0
   provider      = aws.us-west-1
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
   tags = {
     Name = local.west_backend_name
